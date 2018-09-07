@@ -49,17 +49,17 @@ function processPost(post) {
 	var categories = [];
 	if (post.category != undefined) {
 		for(var i = 0; i < post.category.length; i++) {
-			var cat = post.category[i]['_'];
+			var cat = post.category[i]['_'].toLowerCase();
 			if(cat != "Uncategorized")
 				categories.push(cat);
 			//console.log('CATEGORY: ' + util.inspect(post.category[i]['_']));
 		}
 	}
 
-	var fullPath = 'out\\' + postDate.getFullYear() + '\\' + getPaddedMonthNumber(postDate.getMonth() + 1) + '\\' + slug;
+	var fullPath = 'out/' + postDate.getFullYear() + '\\' + getPaddedMonthNumber(postDate.getMonth() + 1) + '\\' + slug;
 
-	fs.mkdir('out\\' + postDate.getFullYear(), function() {
-		fs.mkdir('out\\' + postDate.getFullYear() + '\\' + getPaddedMonthNumber(postDate.getMonth() + 1), function() {
+	fs.mkdir('out/' + postDate.getFullYear(), function() {
+		fs.mkdir('out/' + postDate.getFullYear() + '\\' + getPaddedMonthNumber(postDate.getMonth() + 1), function() {
 			fs.mkdir(fullPath, function() {
 				//Find all images
 				var patt = new RegExp("(?:src=\"(.*?)\")", "gi");
