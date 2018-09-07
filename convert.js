@@ -69,7 +69,6 @@ function processPost(post) {
       //console.log("Found: " + m[1]);
     }
 
-
     if(matches != null && matches.length > 0) {
       for(var i = 0; i < matches.length; i++) {
         //console.log('Post image found: ' + matches[i])
@@ -92,10 +91,10 @@ function processPost(post) {
 
     //Fix characters that markdown doesn't like
     // smart single quotes and apostrophe
-      markdown = markdown.replace(/[\u2018|\u2019|\u201A]/g, "\'");
-      // smart double quotes
-      markdown = markdown.replace(/&quot;/g, "\"");
-      markdown = markdown.replace(/[\u201C|\u201D|\u201E]/g, "\"");
+    markdown = markdown.replace(/[\u2018|\u2019|\u201A]/g, "\'");
+    // smart double quotes
+    markdown = markdown.replace(/&quot;/g, "\"");
+    markdown = markdown.replace(/[\u201C|\u201D|\u201E]/g, "\"");
     // ellipsis
     markdown = markdown.replace(/\u2026/g, "...");
     // dashes
@@ -112,6 +111,8 @@ function processPost(post) {
     markdown = markdown.replace(/[\u02DC|\u00A0]/g, " ");
     // ampersand
     markdown = markdown.replace(/&amp;/g, "&");
+    // dos-style crlf
+    markdown = markdown.replace(/(\r\n|\r)/g, '\n');
 
     var header = "";
     header += "---\n";
