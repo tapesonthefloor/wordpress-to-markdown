@@ -125,7 +125,7 @@ function processPost(post) {
 				header += "---\n";
 				header += "\n";
 
-				fs.writeFile(fullPath + '/index.html.md', header + markdown, function(err) {
+				fs.writeFile(fullPath + '/index.md', header + markdown, function(err) {
 
 				});
 			});
