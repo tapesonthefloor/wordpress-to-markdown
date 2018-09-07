@@ -133,7 +133,7 @@ function processPost(post) {
 function downloadFile(url, path) {
 	 //console.log("Attempt downloading " + url + " to " + path + ' ' + url.indexOf("https:") );
 	if (url.indexOf("https:")  == -1) {
-		if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".png") >=0) {
+		if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".gif") >=0) {
 			var file = fs.createWriteStream(path).on('open', function() {
 				var request = http.get(url, function(response) {
 				console.log("Response code: " + response.statusCode);
