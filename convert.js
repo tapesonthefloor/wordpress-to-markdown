@@ -117,7 +117,7 @@ function processPost(post) {
 
 				var header = "";
 				header += "---\n";
-				header += "layout: post\n";
+				// header += "layout: post\n";
 				header += "title: " + postTitle + "\n";
 				header += "date: " + postDate.getFullYear() + '-' + getPaddedMonthNumber(postDate.getMonth() + 1) + '-' + getPaddedDayNumber(postDate.getDate()) + "\n";
 				if(categories.length > 0)
