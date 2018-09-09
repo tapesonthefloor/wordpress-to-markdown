@@ -7,61 +7,61 @@ var http = require('http');
 processExport();
 
 function processExport() {
-	var parser = new xml2js.Parser();
-	fs.readFile('export.xml', function(err, data) {
-		if(err) {
-			console.log('Error: ' + err);
-		}
+  var parser = new xml2js.Parser();
+  fs.readFile('export.xml', function(err, data) {
+    if(err) {
+      console.log('Error: ' + err);
+    }
 
-	    parser.parseString(data, function (err, result) {
-	    	if(err) {
-	    		console.log('Error parsing xml: ' + err);
-	    	}
-	    	console.log('Parsed XML');
-	        //console.log(util.inspect(result.rss.channel));
+    parser.parseString(data, function (err, result) {
+      if(err) {
+        console.log('Error parsing xml: ' + err);
+      }
+      console.log('Parsed XML');
+      //console.log(util.inspect(result.rss.channel));
 
-	        var posts = result.rss.channel[0].item;
+      var posts = result.rss.channel[0].item;
 
-			
-			fs.mkdir('out', function() {
-		        for(var i = 0; i < posts.length; i++) {
-	        		processPost(posts[i]);
-		        	//console.log(util.inspect(posts[i]));
-		        }
-			});
-	    });
-	});
+
+      fs.mkdir('out', function() {
+        for(var i = 0; i < posts.length; i++) {
+          processPost(posts[i]);
+          //console.log(util.inspect(posts[i]));
+        }
+      });
+    });
+  });
 }
 
 function processPost(post) {
-	console.log('Processing Post');
+  console.log('Processing Post');
 
-	var postTitle = post.title;
-	console.log('Post title: ' + postTitle);
-	var postDate = new Date(post.pubDate);
-	console.log('Post Date: ' + postDate);
-	var postData = post['content:encoded'][0];
-	console.log('Post length: ' + postData.length + ' bytes');
-	var slug = post['wp:post_name'];
-	console.log('Post slug: ' + slug);
+  var postTitle = post.title;
+  console.log('Post title: ' + postTitle);
+  var postDate = new Date(post.pubDate);
+  console.log('Post Date: ' + postDate);
+  var postData = post['content:encoded'][0];
+  console.log('Post length: ' + postData.length + ' bytes');
+  var slug = post['wp:post_name'];
+  console.log('Post slug: ' + slug);
 
-	//Merge categories and tags into tags
-	var categories = [];
-	if (post.category != undefined) {
-		for(var i = 0; i < post.category.length; i++) {
-			var cat = post.category[i]['_'].toLowerCase();
-			if(cat != "Uncategorized")
-				categories.push(cat);
-			//console.log('CATEGORY: ' + util.inspect(post.category[i]['_']));
-		}
-	}
+  //Merge categories and tags into tags
+  var categories = [];
+  if (post.category != undefined) {
+    for(var i = 0; i < post.category.length; i++) {
+      var cat = post.category[i]['_'].toLowerCase();
+      if(cat != "Uncategorized")
+        categories.push(cat);
+      //console.log('CATEGORY: ' + util.inspect(post.category[i]['_']));
+    }
+  }
 
-	var fullPath = 'out/' + postDate.getFullYear() + '-' + getPaddedMonthNumber(postDate.getMonth() + 1) + '-' + getPaddedDayNumber(postDate.getDate()) + '-' + slug;
+  var fullPath = 'out/' + postDate.getFullYear() + '-' + getPaddedMonthNumber(postDate.getMonth() + 1) + '-' + getPaddedDayNumber(postDate.getDate()) + '-' + slug;
 
   fs.mkdir(fullPath, function() {
     //Find all images
     var patt = new RegExp("(?:src=\"(.*?)\")", "gi");
-    
+
     var m;
     var matches = [];
     while((m = patt.exec(postData)) !== null) {
@@ -131,39 +131,39 @@ function processPost(post) {
 }
 
 function downloadFile(url, path) {
-	 //console.log("Attempt downloading " + url + " to " + path + ' ' + url.indexOf("https:") );
-	if (url.indexOf("https:")  == -1) {
-		if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".gif") >=0) {
-			var file = fs.createWriteStream(path).on('open', function() {
-				var request = http.get(url, function(response) {
-				console.log("Response code: " + response.statusCode);
-				response.pipe(file);
-			}).on('error', function(err) {
-				console.log('error downloading url: ' + url + ' to ' + path);
-		});
-		}).on('error', function(err) {
-				console.log('error downloading url2: ' + url + ' to ' + path);
+  //console.log("Attempt downloading " + url + " to " + path + ' ' + url.indexOf("https:") );
+  if (url.indexOf("https:")  == -1) {
+    if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".gif") >=0) {
+      var file = fs.createWriteStream(path).on('open', function() {
+        var request = http.get(url, function(response) {
+          console.log("Response code: " + response.statusCode);
+          response.pipe(file);
+        }).on('error', function(err) {
+          console.log('error downloading url: ' + url + ' to ' + path);
+        });
+      }).on('error', function(err) {
+        console.log('error downloading url2: ' + url + ' to ' + path);
 
-		});
-	}
-	else {
-	  console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
-	}
-	}
-	else {
-	  console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
-	}
+      });
+    }
+    else {
+      console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
+    }
+  }
+  else {
+    console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
+  }
 }
 function getPaddedMonthNumber(month) {
-	if(month < 10)
-		return "0" + month;
-	else
-		return month;
+  if(month < 10)
+    return "0" + month;
+  else
+    return month;
 }
 
 function getPaddedDayNumber(day) {
-	if(day < 10)
-		return "0" + day;
-	else
-		return day;
+  if(day < 10)
+    return "0" + day;
+  else
+    return day;
 }
