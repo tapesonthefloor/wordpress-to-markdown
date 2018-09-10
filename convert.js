@@ -38,16 +38,16 @@ function processExport() {
 }
 
 function processPost(post) {
-  console.log('Processing Post');
+  console.log('Processing post...');
 
   var postTitle = post.title;
-  console.log('Post title: ' + postTitle);
+  console.log('\tPost title: ' + postTitle);
   var postDate = new Date(post.pubDate);
-  console.log('Post Date: ' + postDate);
+  console.log('\tPost date: ' + postDate + '(Original: ' + post.pubDate);
   var postData = post['content:encoded'][0];
-  console.log('Post length: ' + postData.length + ' bytes');
+  console.log('\tPost length: ' + postData.length + ' bytes');
   var slug = post['wp:post_name'];
-  console.log('Post slug: ' + slug);
+  console.log('\tPost slug: ' + slug);
 
   //Merge categories and tags into tags
   var categories = [];
@@ -140,7 +140,7 @@ function downloadFile(url, path) {
     if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".gif") >=0) {
       var file = fs.createWriteStream(path).on('open', function() {
         var request = http.get(url, function(response) {
-          console.log("Response code: " + response.statusCode);
+         // console.log("Response code: " + response.statusCode);
           response.pipe(file);
         }).on('error', function(err) {
           console.log('error downloading url: ' + url + ' to ' + path);
@@ -151,11 +151,11 @@ function downloadFile(url, path) {
       });
     }
     else {
-      console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
+      console.log ('Passing on: ' + url + ' ' + url.indexOf('https:')); 
     }
   }
   else {
-    console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
+    console.log ('Passing on: ' + url + ' ' + url.indexOf('https:')); 
   }
 }
 function getPaddedMonthNumber(month) {
