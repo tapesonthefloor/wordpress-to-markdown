@@ -4,18 +4,22 @@ var util = require('util');
 var toMarkdown = require('to-markdown');
 var http = require('http');
 
+var exportFile = process.argv[2]; // first argument: export filename 
+
 processExport();
 
 function processExport() {
   var parser = new xml2js.Parser();
-  fs.readFile('export.xml', function(err, data) {
+  fs.readFile(exportFile, function(err, data) {
     if(err) {
       console.log('Error: ' + err);
+      process.exit(1);
     }
 
     parser.parseString(data, function (err, result) {
       if(err) {
         console.log('Error parsing xml: ' + err);
+        process.exit(1);
       }
       console.log('Parsed XML');
       //console.log(util.inspect(result.rss.channel));

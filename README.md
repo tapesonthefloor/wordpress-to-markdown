@@ -1,17 +1,17 @@
 # wordpress-to-markdown
 
-This script uses the standard exported XML file from WordPress, and creates a folder/file structure that contains all of the blog posts, converted to markdown format. It will also download all of the images.
+This script uses the standard exported XML file from WordPress, and creates a folder/file structure that contains all of the blog posts, converted to markdown format, and structured consistent with most Gatsby blog-style starters. It will also download all of the images.
 
-## tapesonthefloor fork
-
-This script is being modified to export posts in a format expected by basic [Gatsby](https://github.com/gatsbyjs/gatsby) installs. 
+>## tapesonthefloor fork
+>
+>This script is being modified to export posts in a format expected by basic [Gatsby](https://github.com/gatsbyjs/gatsby) installs. 
 
 Instructions for exporting your information from WordPress [can be found here](http://en.support.wordpress.com/export/).
 
-The folder structure was designed after my blog. I like the structure because it groups the files for the post with the post itself. If you want a different format, you'll need to modify the script.
+The folder structure is consistent with [most blog-style Gatsby starters](https://www.gatsbyjs.org/docs/gatsby-starters/), placing output markdown one level deep in a directory branded with the post date and slug:
 
-	/2013/11/this-is-a-post/index.html.md
-	/2013/11/this-is-a-post/image-for-the-post.jpg
+	2013-11-this-is-a-post/index.md
+	2013-11-this-is-a-post/image-for-the-post.jpg
 
 ### Works on my box
 
